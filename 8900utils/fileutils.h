@@ -3,7 +3,7 @@
 
 inline int is_sane_file(char* filename) {
 	// Check if file exists
-	if( access(filename, F_OK) == -1 ) {
+	if(access(filename, F_OK) == -1) {
 		fprintf(stderr, "check8900: error: file inaccessible or non-existant.\r\n");
 		return -3;
 	}
@@ -15,5 +15,12 @@ inline int is_sane_file(char* filename) {
 		return -4;
 	}
 
+	return 0;
+}
+
+inline int file_exists(char* filename) {
+	if(access(filename, F_OK) == -1) {
+		return -1;
+	}
 	return 0;
 }
