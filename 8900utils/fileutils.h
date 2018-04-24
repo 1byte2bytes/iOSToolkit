@@ -1,3 +1,6 @@
+#include <sys/stat.h>
+#include <unistd.h>
+
 inline int is_sane_file(char* filename) {
 	// Check if file exists
 	if( access(filename, F_OK) == -1 ) {
