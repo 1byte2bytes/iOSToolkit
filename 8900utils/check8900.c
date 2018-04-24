@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include "fileutils.h"
+
 int main(int argc, char* argv[]) {
 	// Verify correct number of args is passed
 	if(argc != 2) {
@@ -10,17 +12,10 @@ int main(int argc, char* argv[]) {
 		return -2;
 	}
 
-	// Check if file exists
-	if( access(argv[1], F_OK) == -1 ) {
-		fprintf(stderr, "check8900: error: file inaccessible or non-existant.\r\n");
-		return -3;
-	}
-
-	// Check that we haven't gotten a folder passed to us
-	struct stat sb;
-	if (stat(argv[1], &sb) == 0 && S_ISDIR(sb.st_mode)) {
-		fprintf(stderr, "check8900: error: folder was passed, not file.\r\n");
-		return -4;
+	// Check that the input file is sane
+	int r = is_sane_file(argv[1]);
+	if(r != 0){
+		return r;
 	}
 
 	// Declare base variables
