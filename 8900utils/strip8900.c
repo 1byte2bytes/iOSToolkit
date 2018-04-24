@@ -32,8 +32,7 @@ int main(int argc, char* argv[]) {
 	fread(buf, 1, 2048, in_file);
 
 	// Continually read and write the file
-	int reading = 1;
-	while(reading == 1) {
+	while(1 == 1) {
 		int count = fread(&buf, 1, sizeof(buf), in_file);
 		if (count < 1) {
 			break;
