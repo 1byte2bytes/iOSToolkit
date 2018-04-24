@@ -35,3 +35,6 @@ test_files/*
 
 .DS_Store
 **/.DS_Store
+
+# Products
+check8900
