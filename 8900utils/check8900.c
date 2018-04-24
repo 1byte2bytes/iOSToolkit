@@ -6,23 +6,22 @@
 int main(int argc, char* argv[]) {
 	// Verify correct number of args is passed
 	if(argc != 2) {
-		printf("check8900: error: incorrect arguments passed.\r\n");
-		return -1;
+		fprintf(stderr, "check8900: error: incorrect arguments passed.\r\n");
+		return -2;
 	}
 
 	// Check if file exists
 	if( access(argv[1], F_OK) == -1 ) {
-		printf("check8900: error: file inaccessible or non-existant.\r\n");
-		return -2;
+		fprintf(stderr, "check8900: error: file inaccessible or non-existant.\r\n");
+		return -3;
 	}
 
 	// Check that we haven't gotten a folder passed to us
-	struct stat statbuf;
-	if (stat(argv[1], &statbuf) == 0) {
-		printf("check8900: error: folder was passed, not file.\r\n");
-		return -2;
+	struct stat sb;
+	if (stat(argv[1], &sb) == 0 && S_ISDIR(sb.st_mode)) {
+		fprintf(stderr, "check8900: error: folder was passed, not file.\r\n");
+		return -4;
 	}
-	free(&statbuf);
 
 	// Declare base variables
 	FILE* file = fopen(argv[1], "rb");
@@ -35,10 +34,7 @@ int main(int argc, char* argv[]) {
 		&& buf[4] == '1' && buf[5] == '.' && buf[6] == '0') {
 		return 0;
 	} else {
-		printf("check8900: error: No 8900 header found.\r\n");
-		return 1;
+		fprintf(stderr, "check8900: error: No 8900 header found.\r\n");
+		return -1;
 	}
-
-	free(&file);
-	free(&buf);
 }
